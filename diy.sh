@@ -23,7 +23,6 @@ git clone https://github.com/sbwml/luci-app-alist package/luci-app-alist
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall-packages package/openwrt-passwall-packages
 #git clone --depth 1 https://github.com/chenmozhijin/luci-app-adguardhome package/luci-app-adguardhome
 git clone --depth 1 https://github.com/tty228/luci-app-wechatpush feeds/luci/applications/luci-app-serverchan
-git clone https://github.com/brvphoenix/wrtbwmon feeds/luci/applications/luci-app-wrtbwmon
 svn_export "main" "luci-app-passwall" "package/luci-app-passwall" "https://github.com/xiaorouji/openwrt-passwall"
 
 # 编译 po2lmo (如果有po2lmo可跳过)
@@ -53,24 +52,3 @@ curl -sfL -o ./luci-app-passwall/root/usr/share/passwall/rules/gfwlist https://r
 #xz -d -c /tmp/upx-${upx_latest_ver}-amd64_linux.tar.xz | tar -x -C "/tmp"
 #/tmp/upx-${upx_latest_ver}-amd64_linux/upx --ultra-brute /tmp/AdGuardHome/AdGuardHome > /dev/null 2>&1
 #mv /tmp/AdGuardHome/AdGuardHome ./ && rm -rf /tmp/AdGuardHome
-# Check if the directories exist before changing into them
-if [ -d "feeds/luci/applications/luci-app-wrtbwmon" ]; then
-  cd feeds/luci/applications/luci-app-wrtbwmon
-else
-  echo "Directory feeds/luci/applications/luci-app-wrtbwmon does not exist."
-fi
-
-# Check if the files exist before performing sed operations
-if [ -f "./luasrc/view/wrtbwmon/wrtbwmon.htm" ]; then
-  sed -i 's/old_text/new_text/' ./luasrc/view/wrtbwmon/wrtbwmon.htm
-else
-  echo "File ./luasrc/view/wrtbwmon/wrtbwmon.htm does not exist."
-fi
-
-if [ -f "./htdocs/luci-static/wrtbwmon/wrtbwmon.js" ]; then
-  sed -i 's/old_text/new_text/' ./htdocs/luci-static/wrtbwmon/wrtbwmon.js
-else
-  echo "File ./htdocs/luci-static/wrtbwmon/wrtbwmon.js does not exist."
-fi
-sed -i 's/ selected=\"selected\"//g' ./luasrc/view/wrtbwmon/wrtbwmon.htm && sed -i 's/\"1\"/\"1\" selected=\"selected\"/g' ./luasrc/view/wrtbwmon/wrtbwmon.htm
-sed -i 's/interval: 5/interval: 1/g' ./htdocs/luci-static/wrtbwmon/wrtbwmon.js
